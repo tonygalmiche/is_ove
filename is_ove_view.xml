@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+    	<menuitem id="menu_is_ove"  sequence="10"  name="OVE"/>
+    	
+    	<menuitem id="menu_is_ove_usager"  sequence="5"  name="Dossier Usager" parent="menu_is_ove"/>
+    	
+    	<menuitem id="menu_is_ove_config"  sequence="10"  name="Configuration" parent="menu_is_ove"/>
+
+		<!-- Usager -->
+		<record id="view_is_ove_usager_tree" model="ir.ui.view">
+            <field name="name">is.ove.usager.tree</field>
+            <field name="model">is.usager</field>
+            <field name="arch" type="xml">
+                <tree string="Dossier usager">
+                    <field name="name" />
+                    <field name="usager_name_jf"/>
+                    <field name="usager_first_name"/>
+                    <field name="usager_birthday"/>
+                    <field name="usager_birth_place"/>
+                    <field name="usager_gender_id" />
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_is_ove_usager_filter" model="ir.ui.view">
+            <field name="name">is.ove.usager.select</field>
+            <field name="model">is.usager</field>
+            <field name="arch" type="xml">
+                <search string="Recherche des usagers">
+                   <field name="name" />
+				   <field name="usager_first_name" />
+               </search>
+            </field>
+        </record>
+        
+        <record id="view_ove_usager_form" model="ir.ui.view">
+            <field name="name">ove.parent.usager.form</field>
+            <field name="model">is.usager</field>
+            <field name="arch" type="xml">
+                <form string="Usager">
+                  <group>
+                	<group>
+                    	<field name="name" />
+						<field name="usager_name_jf" />
+						<field name="usager_first_name" />
+						<field name="usager_gender_id" />	
+                		<field name="usager_birthday" />
+                		<field name="usager_birth_place" />
+                    </group>
+                    <group>                   	
+                    </group>
+                  </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_ove_usager" model="ir.actions.act_window">
+            <field name="name">Usager</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.usager</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_is_ove_usager_filter"/>
+        </record>
+		
+		<menuitem action="action_ove_usager" 
+				id="menu_action_ove_usager"  sequence="15"  
+				name="Usager" 
+				parent="menu_is_ove_usager"/>
+        
+        <!-- Dossier usager -->
+        <record id="view_is_ove_dossier_usager_tree" model="ir.ui.view">
+            <field name="name">is.ove.dossier.usager.tree</field>
+            <field name="model">is.dossier.usager</field>
+            <field name="arch" type="xml">
+                <tree string="Dossier usager">
+                    <field name="usager_id" />
+                    <field name="coor_father_id"/>
+                    <field name="coor_mother_id"/>
+                    <field name="coor_association_id"/>
+                    <field name="coor_start_date"/>
+                    <field name="coor_nationality" />
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_is_ove_dossier_usager_form" model="ir.ui.view">
+            <field name="name">is.ove.dossier.usager.form.view</field>
+            <field name="model">is.dossier.usager</field>
+            <field name="arch" type="xml">
+                <form string="Dossier usager">
+                <sheet>
+                	<group name="usager_infos">
+                		<field name="usager_id" />
+                	</group>
+                	<notebook colspan="4">
+                		<page string="Coordonnées">
+                		<field name="image" widget='image' class="oe_avatar oe_left" />
+                		<group name="information">
+                			<field name="coor_start_date" />
+                			<field name="coor_nationality" />
+                			<field name="coor_father_id" />
+                			<field name="coor_mother_id" />
+                			<field name="coor_association_id" />
+                			<field name="coor_ident_compta" />
+                		</group>
+                		</page>
+                		<page string="Adresses" >
+                			<group name="adresse" string="Adresse">
+                				<field name="adr_type_hebergement" />
+                				<field name="adr_chez" />
+                				<field name="adr_street" />
+                				<field name="adr_lieu_dit" />
+                				<field name="adr_zip" />
+                				<field name="adr_city" />
+                			</group>
+                			<separator string="Téléphone(s)" />
+                			<field name="adr_phone_ids" >
+                				<tree string="Téléphone(s)" editable="bottom">
+                					<field name="name"/>
+                					<field name="phone"/>
+                					<field name="usager_id" invisible="1"/>
+                				</tree>
+                			</field>
+                			<separator string="Courriel(s)" />
+                			<field name="adr_email_ids" >
+                				<tree string="Courriel(s)" editable="bottom">
+                					<field name="name"/>
+                					<field name="email"/>
+                					<field name="usager_id" invisible="1"/>
+                				</tree>
+                			</field>
+                			<separator string="Autre adresse / Personne à contacter" />
+                			<field name="adr_autre_adresse_ids" >
+                				<tree string="Autre adresse / Personne à contacter" editable="bottom">
+                					<field name="name"/>
+                					<field name="aa_first_name"/>
+                					<field name="aa_lieu"/>
+                					<field name="aa_street"/>
+                					<field name="aa_lieu_dit"/>
+                					<field name="aa_zip"/>
+                					<field name="aa_city"/>
+                					<field name="aa_phone"/>
+                					<field name="aa_email"/>
+                					<field name="usager_id" invisible="1"/>
+                				</tree>
+                			</field>
+                		</page>
+                		<page string="Situation Familiale">
+                			<group name="situation">
+                				<group>
+                					<field name="sf_responsable_id" />
+                        			<field name="sf_situation_parent_id" />
+                        			<field name="sf_rang" />
+                        			<field name="sf_situation_usager_id" />
+                				</group>
+                				<group>
+                					<field name="sf_nb_sisters" />
+                					<field name="sf_nb_brothers" />
+                					<field name="sf_nb_children" />
+                					<field name="sf_nb_children_charge" />
+                				</group>               				          		
+                			</group>
+                		</page>
+                		<page string="Notifications" >
+                			<separator string="Notifications" />
+                			<field name="notification_ids" >
+                				<form string="Notifications">
+                					<group name="notifications">
+                						<field name="notif_num" />
+                        				<field name="notif_date" />
+                        				<field name="notif_start_validity_date"/>
+                						<field name="notif_end_validity_date"/>
+                						<field name="notif_prescripteur"/>
+                        				<field name="attachment_ids" widget="many2many_binary"/>
+                        				<field name="usager_id" invisible="1"/>
+                        				<field name="comment"/>               				          		
+                					</group>
+                				</form>
+                				<tree string="Notifications">
+                					<field name="notif_num"/>
+                					<field name="notif_date"/>
+                					<field name="notif_start_validity_date"/>
+                					<field name="notif_end_validity_date"/>
+                					<field name="notif_prescripteur"/>
+                					<field name="comment"/> 
+                					<field name="usager_id" invisible="1"/>
+                				</tree>
+                			</field>
+                		</page>
+                		<page string="Affiliations" >
+                			<separator string="Affiliations" />
+                			<field name="affiliation_ids" >
+                				<form string="Affiliations">
+                					<group name="affiliation">
+                						<group>
+                							<field name="aff_type" />
+                        					<field name="aff_assure" />
+                        					<field name="aff_assure_name" />
+                        					<field name="aff_num_dossier" />
+                        					<field name="aff_date" />
+                        					<field name="aff_start_validity_date" />
+                							<field name="aff_end_validity_date" />
+                						</group>
+                						<group>            							
+                							<field name="affiliateur_id" />
+                							<field name="aff_code" />
+                							<field name="aff_organisme" />
+                							<field name="aff_code_gestion" />
+                							<field name="usager_id" invisible="1"/>
+                						</group>               				          		
+                					</group>
+                					<group>
+                						<field name="attachment_ids" widget="many2many_binary"/>
+                						<field name="comment" />
+                					</group>
+                				</form>
+                				<tree string="Affiliations">
+                					<field name="aff_type" />
+                        			<field name="aff_assure" />
+                        			<field name="aff_assure_name" />
+                        			<field name="aff_num_dossier" />
+                        			<field name="aff_date" />
+                        			<field name="aff_start_validity_date" />
+                					<field name="aff_end_validity_date" />
+                					<field name="affiliateur_id" />
+                					<field name="aff_code" />
+                					<field name="aff_organisme" />
+                					<field name="aff_code_gestion" />
+                					<field name="usager_id" invisible="1"/>      					
+                				</tree>
+                			</field>
+                		</page>
+                		<page string="Prestations" >
+                			<separator string="Prestations" />
+                			<field name="prestation_ids" >
+                				<tree string="Prestations" editable="bottom">
+                					<field name="prest_num_dossier"/>
+                					<field name="prest_date"/>
+                					<field name="prest_start_validity_date"/>
+                					<field name="prest_end_validity_date" />
+                					<field name="prestataire_id" />
+                					<field name="comment" />
+                					<field name="usager_id" invisible="1"/>               					
+                				</tree>
+                			</field>
+                		</page>
+                		<page string="Autorisation" >
+                			<separator string="Autorisations" />
+                			<field name="autorisation_ids" >
+                				<form string="Autorisations">
+                					<group name="autorisation">
+                						<field name="aut_type" />
+                        				<field name="aut_date" />
+                        				<field name="attachment_ids" widget="many2many_binary"/>
+                        				<field name="usager_id" invisible="1"/>
+                        				<field name="comment"/>               				          		
+                					</group>
+                				</form>
+                				<tree string="Autorisation">
+                					<field name="aut_type"/>
+                					<field name="aut_date"/>
+                					<field name="comment"/> 
+                					<field name="usager_id" invisible="1"/>             					
+                				</tree>
+                			</field>
+                		</page>
+                		<page string="Contre-indications et soins" >
+                			<separator string="Contre-indications" />
+                			<field name="contre_indication_ids" >
+                				<tree string="Contre-indications" editable="bottom">
+                					<field name="cont_nature"/>
+                					<field name="cont_start_validity_date"/>
+                					<field name="cont_end_validity_date"/> 
+                					<field name="cont_professional_id"/>
+                					<field name="comment"/>
+                					<field name="usager_id" invisible="1"/>           					
+                				</tree>
+                			</field>
+                			<separator string="Soins" />
+                			<field name="soins_ids" >
+                				<tree string="Soins" editable="bottom">
+                					<field name="soin_nature"/>
+                					<field name="soin_start_validity_date"/>
+                					<field name="soin_end_validity_date"/> 
+                					<field name="soin_professional_id"/>
+                					<field name="comment"/>
+                					<field name="usager_id" invisible="1"/>           					
+                				</tree>
+                			</field>
+                		</page>
+                		<page string="Autres partenaires" >
+                			<p>
+                				Fonctionnalité non implémentée pour le moment
+                			</p>
+                		</page>
+                		<page string="Accompagnements" >
+                			<p>
+                				Fonctionnalité non implémentée pour le moment
+                			</p>
+                		</page>
+                		<page string="Parcours" >
+                			<p>
+                				Fonctionnalité non implémentée pour le moment
+                			</p>
+                		</page>
+                		<page string="Diplômes et attestations" >
+                			<p>
+                				Fonctionnalité non implémentée pour le moment
+                			</p>
+                		</page> 
+                	</notebook>
+                </sheet>              			
+               </form>
+            </field>
+        </record>
+        
+        <record id="action_ove_dossier_usager" model="ir.actions.act_window">
+            <field name="name">Dossier usager</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.dossier.usager</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+		
+		<menuitem action="action_ove_dossier_usager" 
+				id="menu_action_ove_dossier_usager"  sequence="10"  
+				name="Dossier usager" 
+				parent="menu_is_ove_usager"/>
+
+        
+		
+		<!-- Parents -->
+		<record id="view_ove_parent_usager_tree" model="ir.ui.view">
+            <field name="name">ove.parent.usager.tree</field>
+            <field name="model">is.usager.parent</field>
+            <field name="arch" type="xml">
+                <tree string="Parents usager">
+                    <field name="name"/>
+                    <field name="up_name_jf"/>
+                    <field name="up_first_name"/>
+                    <field name="up_birthday"/>
+                    <field name="up_birth_place"/>
+                    <field name="up_gender_id"/>
+                    <field name="up_type_id"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_ove_parent_usager_form" model="ir.ui.view">
+            <field name="name">ove.parent.usager.form</field>
+            <field name="model">is.usager.parent</field>
+            <field name="arch" type="xml">
+                <form string="Parents usager">
+                  <group string="Identification">
+                	<group>
+                    	<field name="name"/>
+                    	<field name="up_name_jf"/>
+                    	<field name="up_first_name"/>
+                    	<field name="up_type_id"/>
+                    	<field name="up_birthday"/>
+                    	<field name="up_birth_place"/>
+                    	<field name="up_gender_id"/>
+                    	<field name="up_categ_prof"/>
+                    </group>
+                    <group>                   	
+                    </group>
+                  </group>
+                  <group string="Cordonnées">
+                	<group>
+                    	<field name="up_street"/>
+                    	<field name="up_zip"/>
+                    	<field name="up_city"/>
+                    	<field name="up_phone"/>
+                    	<field name="up_mobile"/>
+                    	<field name="up_fax"/>
+                    	<field name="up_email"/>
+                    </group>
+                    <group>                   	
+                    </group>
+                  </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_ove_parent_usager" model="ir.actions.act_window">
+            <field name="name">Parent</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.usager.parent</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+		
+		<menuitem action="action_ove_parent_usager" 
+				id="menu_action_ove_parent_usager"  sequence="20"  
+				name="Parent" 
+				parent="menu_is_ove_usager"/>		
+		
+		<!-- Sexe -->
+		<record id="view_ove_gender_tree" model="ir.ui.view">
+            <field name="name">ove.gender.tree</field>
+            <field name="model">is.gender</field>
+            <field name="arch" type="xml">
+                <tree string="Sexe">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_ove_gender_form" model="ir.ui.view">
+            <field name="name">ove.gender.form</field>
+            <field name="model">is.gender</field>
+            <field name="arch" type="xml">
+                <form string="Sexe">
+                	<group>
+                    	<field name="name"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_ove_gender" model="ir.actions.act_window">
+            <field name="name">Sexe</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.gender</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+		
+		<menuitem action="action_ove_gender" 
+				id="menu_action_ove_gender"  sequence="1"  
+				name="Sexe" 
+				parent="menu_is_ove_config"/>
+				
+		<!-- Type Parent -->
+		<record id="view_ove_type_parent_tree" model="ir.ui.view">
+            <field name="name">ove.type.parent.tree</field>
+            <field name="model">is.type.parent</field>
+            <field name="arch" type="xml">
+                <tree string="Type Parent">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_ove_type_parent_form" model="ir.ui.view">
+            <field name="name">ove.type.parent.form</field>
+            <field name="model">is.type.parent</field>
+            <field name="arch" type="xml">
+                <form string="Type Parent">
+                	<group>
+                    	<field name="name"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_ove_type_parent" model="ir.actions.act_window">
+            <field name="name">Type Parent</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.type.parent</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+		
+		<menuitem action="action_ove_type_parent" 
+				id="menu_action_ove_type_parent"  sequence="2"  
+				name="Type Parent" 
+				parent="menu_is_ove_config"/>
+				
+		<!-- Type hébergement -->
+		<record id="view_ove_type_hebergement_tree" model="ir.ui.view">
+            <field name="name">ove.type.hebergement.tree</field>
+            <field name="model">is.type.hebergement</field>
+            <field name="arch" type="xml">
+                <tree string="Type hébergement">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_ove_type_hebergement_form" model="ir.ui.view">
+            <field name="name">ove.type.hebergement.form</field>
+            <field name="model">is.type.hebergement</field>
+            <field name="arch" type="xml">
+                <form string="Type hébergement">
+                	<group>
+                    	<field name="name"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_ove_type_hebergement" model="ir.actions.act_window">
+            <field name="name">Type hébergement</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.type.hebergement</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+		
+		<menuitem action="action_ove_type_hebergement" 
+				id="menu_action_ove_type_hebergement"  sequence="3"  
+				name="Type hébergement" 
+				parent="menu_is_ove_config"/>
+				
+		<!-- Responsable legal -->
+		<record id="view_ove_responsable_legal_tree" model="ir.ui.view">
+            <field name="name">ove.responsable.legal.tree</field>
+            <field name="model">is.responsable.legal</field>
+            <field name="arch" type="xml">
+                <tree string="Responsable légal">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_ove_responsable_legal_form" model="ir.ui.view">
+            <field name="name">ove.responsable.legal.form</field>
+            <field name="model">is.responsable.legal</field>
+            <field name="arch" type="xml">
+                <form string="Responsable légal">
+                	<group>
+                    	<field name="name"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_ove_responsable_legal" model="ir.actions.act_window">
+            <field name="name">Responsable légal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.responsable.legal</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+		
+		<menuitem action="action_ove_responsable_legal" 
+				id="menu_action_ove_responsable_legal"  sequence="4"  
+				name="Responsable légal" 
+				parent="menu_is_ove_config"/>
+				
+		<!-- Situation -->
+		<record id="view_ove_situation_tree" model="ir.ui.view">
+            <field name="name">ove.situation.tree</field>
+            <field name="model">is.situation</field>
+            <field name="arch" type="xml">
+                <tree string="Situation familiale">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_ove_situation_form" model="ir.ui.view">
+            <field name="name">ove.situation.form</field>
+            <field name="model">is.situation</field>
+            <field name="arch" type="xml">
+                <form string="Situation familiale">
+                	<group>
+                    	<field name="name"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_ove_situation" model="ir.actions.act_window">
+            <field name="name">Situation familiale</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.situation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+		
+		<menuitem action="action_ove_situation" 
+				id="menu_action_ove_situation"  sequence="5"  
+				name="Situation familiale" 
+				parent="menu_is_ove_config"/>
+				
+				
+
+    </data>
+</openerp>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+    
+    	<!-- Sexe -->
+    	<record id="is_ove_sexe_masculin" model="is.gender">
+            <field name="name">Masculin</field>
+        </record>
+
+    	<record id="is_ove_sexe_feminin" model="is.gender">
+            <field name="name">Féminin</field>
+        </record>
+        
+        <!-- Type parent -->
+    	<record id="is_ove_type_physique" model="is.type.parent">
+            <field name="name">Personne physique</field>
+        </record>
+
+    	<record id="is_ove_type_moral" model="is.type.parent">
+            <field name="name">Personne Morale</field>
+        </record>        
+        
+	</data>
+</openerp>   
