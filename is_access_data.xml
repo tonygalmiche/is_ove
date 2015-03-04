@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="ove_consult_dossier_usager_rule" model="ir.rule">
+            <field name="name">Dossier Usager - Consultation</field>
+            <field name="model_id" ref="model_is_dossier_usager"/>
+            <field name="domain_force">[('group_consultation.user_ids.id','in',[False,user.id])]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="0" name="perm_create"/>
+        </record>
+
+        <record id="ove_modif_dossier_usager_rule" model="ir.rule">
+            <field name="name">Dossier Usager - Modification</field>
+            <field name="model_id" ref="model_is_dossier_usager"/>
+            <field name="domain_force">[('group_modification.user_ids.id','in',[False,user.id])]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field eval="1" name="perm_unlink"/>
+            <field eval="1" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="1" name="perm_create"/>
+        </record>   
+
+    </data>
+</openerp>

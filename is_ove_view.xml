@@ -40,16 +40,16 @@
             <field name="model">is.usager</field>
             <field name="arch" type="xml">
                 <form string="Usager">
-                  <group>
+                  <group name="usager">
                 	<group>
                     	<field name="name" />
 						<field name="usager_name_jf" />
 						<field name="usager_first_name" />
-						<field name="usager_gender_id" />	
-                		<field name="usager_birthday" />
-                		<field name="usager_birth_place" />
                     </group>
-                    <group>                   	
+                    <group>
+                    	<field name="usager_gender_id" />	
+                		<field name="usager_birthday" />
+                		<field name="usager_birth_place" />                  	
                     </group>
                   </group>
                 </form>
@@ -93,7 +93,7 @@
                 <form string="Dossier usager">
                 <sheet>
                 	<group name="usager_infos">
-                		<field name="usager_id" />
+                		<field name="usager_id" on_change="onchange_usager_id(usager_id)"/>
                 	</group>
                 	<notebook colspan="4">
                 		<page string="Coordonnées">
@@ -310,7 +310,17 @@
                 			<p>
                 				Fonctionnalité non implémentée pour le moment
                 			</p>
-                		</page> 
+                		</page>
+                		<page string="Accessibilités">
+						  <group>
+							<group>
+								<field name="group_consultation" />
+								<field name="group_modification" />
+							</group>
+							<group>
+							</group>
+						  </group>
+                        </page> 
                 	</notebook>
                 </sheet>              			
                </form>
@@ -368,7 +378,7 @@
                     <group>                   	
                     </group>
                   </group>
-                  <group string="Cordonnées">
+                  <group string="Coordonnées">
                 	<group>
                     	<field name="up_street"/>
                     	<field name="up_zip"/>

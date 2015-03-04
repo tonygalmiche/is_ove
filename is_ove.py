@@ -85,8 +85,42 @@ class is_dossier_usager(osv.osv):
         'prestation_ids': fields.one2many('is.usager.prestation', 'usager_id', 'Prestations'),
         'autorisation_ids': fields.one2many('is.usager.autorisation', 'usager_id', 'Autorisations'),
         'contre_indication_ids': fields.one2many('is.usager.contre.indications', 'usager_id', 'Contre-indications'),
-        'soins_ids': fields.one2many('is.usager.soins', 'usager_id', 'Soins'), 
+        'soins_ids': fields.one2many('is.usager.soins', 'usager_id', 'Soins'),
+        
+        'group_consultation': fields.many2one('ove.groupe', u'Accès à la consultation', readonly=True),
+        'group_modification': fields.many2one('ove.groupe', u'Accès à la modification', readonly=True),
     }
+    
+    def onchange_usager_id(self, cr, uid, ids, usager_id, context=None):
+        val = {}
+        if usager_id:
+            group_obj = self.pool.get('ove.groupe')
+            group_ids = group_obj.search(cr, uid, [('usager_id','=', usager_id)], context=context)
+            if group_ids:
+                for group in group_obj.read(cr, uid, group_ids, ['id', 'code', 'user_ids'], context=context):
+                    if group['code'] == 'G2':
+                        val.update({'group_consultation': group['id']}) 
+                    if group['code'] == 'G3':
+                        val.update({'group_modification': group['id']})    
+        return {'value': val}
+    
+    def create(self, cr, uid, vals, context=None):
+        """
+        Prendre en considération les groupes d'accéssibilité lors de la création
+        """
+        new_id = super(is_dossier_usager, self).create(cr, uid, vals, context=context)
+        val = self.onchange_usager_id(cr, uid, [new_id], vals['usager_id'], context)
+        self.write(cr, uid, new_id, val['value'], context=context)
+        return new_id
+    
+    def write(self, cr, uid, ids, vals, context=None):
+        """
+        Prendre en considération les groupes d'accessibilité lors de la modification
+        """
+        if 'usager_id' in vals and vals['usager_id']:
+            val = self.onchange_usager_id(cr, uid, ids, vals['usager_id'], context)
+            vals.update(val['value'])
+        return super(is_dossier_usager, self).write(cr, uid, ids, vals, context=context)
 
 is_dossier_usager()
 
